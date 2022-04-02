@@ -1,2 +1,2 @@
 providers:
-  - Dive\Skeleton\SkeletonServiceProvider
+  - Dive\DryRequests\ServiceProvider

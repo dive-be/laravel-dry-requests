@@ -1,50 +1,34 @@
-# :package_description
+# Dry run requests
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/:package_name.svg?style=flat-square)](https://packagist.org/packages/dive-be/:package_name)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
-**Note:** Run `./init.sh` to get started, or manually replace  ```:author_name``` ```:author_username``` ```:author_email``` ```:package_name``` ```:package_description``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](.github/CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can also run `init.sh` to do this automatically.
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+This package allows you to check if your requests would pass validation if you executed them normally.
+The Laravel equivalent of `--dry-run` in various CLI tools.
 
 ⚠️ Minor releases of this package may cause breaking changes as it has no stable release yet.
 
 ## What problem does this package solve?
 
-Optionally describe why someone would want to use this package.
+A traditional approach to validating user input in JavaScript applications (Inertia / SPA / Mobile) is using a library such as **yup**
+to do the heavy lifting and delegating complex business validations to the server.
+
+However, the client-side can never be trusted, so you can't simply omit the validation rules that ran on the front-end.
+This means that validation has to live in 2 distinct places and you will have to keep them in sync.
+This is very tedious and wasteful, so this is where this package comes into play.
+
+Hit the endpoint **as users are entering information on the form** to provide real-time feedback with 100% accuracy. 
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require dive-be/:package_name
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="Dive\Skeleton\SkeletonServiceProvider" --tag="migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-```bash
-php artisan vendor:publish --provider="Dive\Skeleton\SkeletonServiceProvider" --tag="config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
+composer require dive-be/laravel-dry-requests
 ```
 
 ## Usage
 
-```php
-$skeleton = new Dive\Skeleton();
-echo $skeleton->echoPhrase('Hello, Dive!');
-```
+TODO
 
 ## Testing
 
@@ -66,7 +50,7 @@ If you discover any security related issues, please email oss@dive.be instead of
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Muhammed Sari](https://github.com/mabdullahsari)
 - [All Contributors](../../contributors)
 
 ## License
