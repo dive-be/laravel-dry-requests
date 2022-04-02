@@ -1,0 +1,13 @@
+.DS_Store
+.idea
+.vscode
+.php-cs-fixer.php
+.php-cs-fixer.cache
+.phpunit.result.cache
+build
+composer.lock
+coverage
+docs
+phpunit.xml
+phpstan.neon
+vendor

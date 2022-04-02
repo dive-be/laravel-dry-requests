@@ -1,0 +1,66 @@
+{
+    "name": "dive-be/:package_name",
+    "description": ":package_description",
+    "keywords": [
+        "dive",
+        ":package_name"
+    ],
+    "homepage": "https://github.com/dive-be/:package_name",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": ":author_name",
+            "email": ":author_email",
+            "homepage": "https://dive.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/console": "^9.0",
+        "illuminate/contracts": "^9.0",
+        "illuminate/support": "^9.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "nunomaduro/larastan": "^2.1",
+        "orchestra/testbench": "^6.20",
+        "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-laravel": "^1.2",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Dive\\Skeleton\\": "src",
+            "Dive\\Skeleton\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "analyse": "vendor/bin/phpstan analyse --memory-limit=2G",
+        "format": "vendor/bin/php-cs-fixer fix --config .php-cs-fixer.dist.php --allow-risky=yes",
+        "test": "vendor/bin/pest"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Dive\\Skeleton\\SkeletonServiceProvider"
+            ],
+            "aliases": {
+                "Skeleton": "Dive\\Skeleton\\Facades\\Skeleton"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
