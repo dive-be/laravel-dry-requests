@@ -9,6 +9,9 @@ class TestCase extends BaseTestCase
 {
     protected function getPackageProviders($app): array
     {
-        return [ServiceProvider::class];
+        return [
+            ServiceProvider::class,
+            TestingServiceProvider::class,
+        ];
     }
 }
