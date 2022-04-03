@@ -2,6 +2,8 @@
 
 namespace Dive\DryRequests;
 
+use Illuminate\Validation\Validator;
+
 trait DryRunnable
 {
     public function isDry(): bool
@@ -23,5 +25,22 @@ trait DryRunnable
         if ($this->isDry()) {
             $this->stopOnFirstFailure = true;
         }
+    }
+
+    protected function withValidator(Validator $instance)
+    {
+        if (! $this->isDry()) {
+            return;
+        }
+
+        $rules = $instance->getRules();
+
+        foreach ($rules as &$definitions) {
+            if (count($definitions) && reset($definitions) !== 'sometimes') {
+                array_unshift($definitions, 'sometimes');
+            }
+        }
+
+        $instance->setRules($rules);
     }
 }
