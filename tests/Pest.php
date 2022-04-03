@@ -2,7 +2,6 @@
 
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
-
 use function Pest\Laravel\post;
 
 uses(TestCase::class)->in(__DIR__);
