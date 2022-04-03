@@ -2,12 +2,26 @@
 
 namespace Dive\DryRequests;
 
-use Attribute;
-
-#[Attribute(Attribute::TARGET_CLASS)]
-class DryRunnable
+trait DryRunnable
 {
-    public function __construct(
-        public readonly string $parameter = 'dry-run',
-    ) {}
+    public function isDry(): bool
+    {
+        return $this->boolean($this->container['config']['dry-requests.parameter']);
+    }
+
+    protected function passedValidation()
+    {
+        if ($this->isDry()) {
+            $this->container['events']->dispatch(RequestRanDry::make($this));
+
+            throw SucceededException::make();
+        }
+    }
+
+    protected function prepareForValidation()
+    {
+        if ($this->isDry()) {
+            $this->stopOnFirstFailure = true;
+        }
+    }
 }
