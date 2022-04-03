@@ -21,7 +21,6 @@
     ],
     "require": {
         "php": "^8.1",
-        "dive-be/php-crowbar": "^1.0",
         "laravel/framework": "^9.0"
     },
     "require-dev": {
