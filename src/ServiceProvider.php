@@ -19,7 +19,7 @@ final class ServiceProvider extends BaseServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/dry-requests.php', 'dry-requests');
 
-        $this->callAfterResolving(ExceptionHandler::class, $this->registerException(...));
+        $this->app->afterResolving(ExceptionHandler::class, $this->registerException(...));
     }
 
     private function registerConfig()
@@ -31,9 +31,11 @@ final class ServiceProvider extends BaseServiceProvider
         ], 'config');
     }
 
-    private function registerException(Handler $handler)
+    private function registerException(ExceptionHandler $handler)
     {
-        $handler->ignore(SucceededException::class);
-        $handler->renderable(fn (SucceededException $e) => $this->app[Responder::class]->respond());
+        if ($handler instanceof Handler) {
+            $handler->ignore(SucceededException::class);
+            $handler->renderable(fn (SucceededException $e) => $this->app[Responder::class]->respond());
+        }
     }
 }
