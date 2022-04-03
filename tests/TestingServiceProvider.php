@@ -3,12 +3,22 @@
 namespace Tests;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
-use Tests\Http\Controllers\PreflightController;
+use Illuminate\Http\Response;
+use Illuminate\Testing\TestResponse;
+use Tests\Http\Controllers\UsersController;
 
 class TestingServiceProvider extends RouteServiceProvider
 {
+    public function boot()
+    {
+        TestResponse::macro('assertDry', function () {
+            /** @var TestResponse $this */
+            return $this->assertNoContent(Response::HTTP_ACCEPTED);
+        });
+    }
+
     public function map()
     {
-        $this->get('preflight', PreflightController::class)->name('preflight');
+        $this->post('users', [UsersController::class, 'store']);
     }
 }
