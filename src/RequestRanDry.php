@@ -4,7 +4,7 @@ namespace Dive\DryRequests;
 
 use Illuminate\Http\Request;
 
-class RequestRanDry
+final class RequestRanDry
 {
     private function __construct(
         public readonly Request $request,

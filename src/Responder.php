@@ -5,7 +5,7 @@ namespace Dive\DryRequests;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 
-class Responder
+final class Responder
 {
     public function __construct(
         private ResponseFactory $factory,

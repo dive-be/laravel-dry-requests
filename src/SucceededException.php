@@ -4,7 +4,7 @@ namespace Dive\DryRequests;
 
 use Exception;
 
-class SucceededException extends Exception
+final class SucceededException extends Exception
 {
     public static function make(): self
     {
