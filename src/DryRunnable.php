@@ -20,13 +20,6 @@ trait DryRunnable
         }
     }
 
-    protected function prepareForValidation()
-    {
-        if ($this->isDry()) {
-            $this->stopOnFirstFailure = true;
-        }
-    }
-
     protected function withValidator(Validator $instance)
     {
         if (! $this->isDry()) {
@@ -42,5 +35,6 @@ trait DryRunnable
         }
 
         $instance->setRules($rules);
+        $instance->stopOnFirstFailure();
     }
 }
