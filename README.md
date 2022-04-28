@@ -92,6 +92,31 @@ axios.post('/users', {
 - If a validation error occurs, the first error will be returned.
 - Absent fields that are required **will not be validated** to ensure good UX.
 
+### Conflicting `FormRequest` methods
+
+The package makes use of the available methods `passedValidation` and `withValidator` available on `FormRequest` classes to enable its behavior.
+
+If you define these in your own requests, you must call the "dry" methods manually:
+
+```php
+class CreateUserRequest extends FormRequest
+{
+    protected function passedValidation()
+    {
+        $this->stopWhenDry(); // must be called first
+        
+        // your custom logic
+    }
+    
+    protected function withValidator(Validator $instance)
+    {
+        $instance = /* your custom logic */;
+        
+        $this->withDryValidator($instance); // must be called last
+    }
+}
+```
+
 ## Testing
 
 ```bash
