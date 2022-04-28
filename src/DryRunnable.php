@@ -13,6 +13,11 @@ trait DryRunnable
 
     protected function passedValidation()
     {
+        $this->stopWhenDry();
+    }
+
+    protected function stopWhenDry()
+    {
         if ($this->isDry()) {
             $this->container['events']->dispatch(RequestRanDry::make($this));
 
@@ -20,21 +25,26 @@ trait DryRunnable
         }
     }
 
+    protected function withDryValidator(Validator $instance): Validator
+    {
+        if ($this->isDry()) {
+            $rules = $instance->getRules();
+
+            foreach ($rules as &$definitions) {
+                if (count($definitions) && reset($definitions) !== 'sometimes') {
+                    array_unshift($definitions, 'sometimes');
+                }
+            }
+
+            $instance->setRules($rules);
+            $instance->stopOnFirstFailure();
+        }
+
+        return $instance;
+    }
+
     protected function withValidator(Validator $instance)
     {
-        if (! $this->isDry()) {
-            return;
-        }
-
-        $rules = $instance->getRules();
-
-        foreach ($rules as &$definitions) {
-            if (count($definitions) && reset($definitions) !== 'sometimes') {
-                array_unshift($definitions, 'sometimes');
-            }
-        }
-
-        $instance->setRules($rules);
-        $instance->stopOnFirstFailure();
+        $this->withDryValidator($instance);
     }
 }
