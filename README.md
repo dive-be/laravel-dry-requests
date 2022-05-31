@@ -2,8 +2,11 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
-This package allows you to check if your requests would pass validation if you executed them normally.
-The Laravel equivalent of `--dry-run` in various CLI tools.
+This package allows you to check if your requests would pass validation if you executed them normally. 
+(The Laravel equivalent of `--dry-run` in various CLI tools.)
+
+🚀 Hit the endpoint **as users are entering information on the form** to provide real-time feedback with 100% accuracy. 
+
 
 ## What problem does this package solve?
 
@@ -13,8 +16,6 @@ to do the heavy lifting and delegating complex business validations to the serve
 However, the client-side can never be trusted, so you can't simply omit the validation rules that ran on the front-end.
 This means that validation has to live in 2 distinct places and you will have to keep them in sync.
 This is very tedious and wasteful, so this is where this package comes into play.
-
-Hit the endpoint **as users are entering information on the form** to provide real-time feedback with 100% accuracy. 
 
 ## Installation
 
@@ -42,7 +43,11 @@ return [
 
 ## Usage
 
-> 📣 You **must** use `FormRequest` classes
+### Prerequisites
+
+📣 You **must** be using [`FormRequest` classes](https://laravel.com/docs/9.x/validation#form-request-validation), otherwise the included `DryRunnable` trait will not work.
+
+### Example
 
 Assume the following endpoint: `POST /users` and `Controller`:
 
@@ -79,18 +84,25 @@ class StoreUserRequest extends FormRequest
 Now, hit the endpoint from the client-side like you normally would, but with the added `dry` flag (or the one you configured in the config file).
 
 ```js
-axios.post('/users', {
-    dry: true,
-    email: 'muhammed@dive.be',
-    name: 'Muhammed Sari'
-}).then(function (response) {
-    return response.status; // 202
-});
+// 422 Unprocessable Entity
+axios.post('/users', { dry: true, email: 'muhammed' }).then(response => response.status);
+     
+// 202 Accepted
+axios.post('/users', { dry: true, name: 'Muhammed Sari' }).then(response => response.status);
+
+// 202 Accepted
+axios.post('/users', { dry: true, email: 'muhammed@dive.be', name: 'Muhammed Sari' }).then(response => response.status);
+
+// 201 Created
+axios.post('/users', { email: 'muhammed@dive.be', name: 'Muhammed Sari' }).then(response => response.status);
 ```
 
-- If the request succeeds, your `Controller` logic **will not be executed**.
-- If a validation error occurs, the first error will be returned.
-- Absent fields that are required **will not be validated** to ensure good UX.
+### Behavior
+
+- `Controller` logic is *not* executed after a *successful* validation attempt.
+- Validation stops as soon as an error is encountered. This error is then returned.
+- Absent fields that have the `required` rule will *not* be validated to ensure good UX. 
+  - This means that you don't *really have to* keep track of a `touched` state for your FE form fields, but you still should nonetheless for other purposes.
 
 ### Conflicting `FormRequest` methods
 
