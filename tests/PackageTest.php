@@ -25,7 +25,7 @@ test('validation will stop as soon as an error is found during a dry request', f
     $response->assertValid('name')->assertInvalid('email');
 });
 
-test('202 (Accepted) is returned if a dry request succeeds', function () {
+test('200 (OK) is returned if a dry request succeeds', function () {
     $response = dry(['email' => 'muhammed@dive.be', 'name' => 'Muhammed Sari']);
 
     $response->assertDry();

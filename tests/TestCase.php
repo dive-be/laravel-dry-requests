@@ -3,9 +3,9 @@
 namespace Tests;
 
 use Dive\DryRequests\ServiceProvider;
-use Orchestra\Testbench\TestCase as BaseTestCase;
+use Orchestra\Testbench\TestCase as TestCaseBase;
 
-class TestCase extends BaseTestCase
+class TestCase extends TestCaseBase
 {
     protected function getPackageProviders($app): array
     {
