@@ -9,5 +9,4 @@
 /.editorconfig           export-ignore
 /.php-cs-fixer.dist.php  export-ignore
 /phpstan.neon.dist       export-ignore
-/testbench.yaml          export-ignore
 /CONTRIBUTING.md         export-ignore
