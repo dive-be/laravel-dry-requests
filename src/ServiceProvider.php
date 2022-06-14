@@ -4,31 +4,15 @@ namespace Dive\DryRequests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Exceptions\Handler;
-use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Illuminate\Support\ServiceProvider as ServiceProviderBase;
 
-final class ServiceProvider extends BaseServiceProvider
+final class ServiceProvider extends ServiceProviderBase
 {
-    public function boot()
-    {
-        if ($this->app->runningInConsole()) {
-            $this->registerConfig();
-        }
-    }
+    public const HEADER = 'X-Dry-Run';
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/dry-requests.php', 'dry-requests');
-
         $this->app->afterResolving(ExceptionHandler::class, $this->registerException(...));
-    }
-
-    private function registerConfig()
-    {
-        $config = 'dry-requests.php';
-
-        $this->publishes([
-            __DIR__ . '/../config/' . $config => $this->app->configPath($config),
-        ], 'config');
     }
 
     private function registerException(ExceptionHandler $handler)

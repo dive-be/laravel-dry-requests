@@ -8,7 +8,7 @@ trait DryRunnable
 {
     public function isDry(): bool
     {
-        return $this->boolean($this->container['config']['dry-requests.parameter']);
+        return $this->headers->has(ServiceProvider::HEADER);
     }
 
     protected function passedValidation()

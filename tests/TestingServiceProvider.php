@@ -2,8 +2,8 @@
 
 namespace Tests;
 
+use Dive\DryRequests\ServiceProvider;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
-use Illuminate\Http\Response;
 use Illuminate\Testing\TestResponse;
 use Tests\Http\Controllers\UsersController;
 
@@ -13,7 +13,7 @@ class TestingServiceProvider extends RouteServiceProvider
     {
         TestResponse::macro('assertDry', function () {
             /** @var TestResponse $this */
-            return $this->assertNoContent(Response::HTTP_ACCEPTED);
+            return $this->assertOk()->assertHeader('Vary', ServiceProvider::HEADER);
         });
     }
 

@@ -13,6 +13,6 @@ final class Responder
 
     public function respond(): Response
     {
-        return $this->factory->noContent(Response::HTTP_ACCEPTED);
+        return $this->factory->make(headers: ['Vary' => ServiceProvider::HEADER]);
     }
 }
