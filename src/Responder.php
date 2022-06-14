@@ -2,17 +2,12 @@
 
 namespace Dive\DryRequests;
 
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 
 final class Responder
 {
-    public function __construct(
-        private ResponseFactory $factory,
-    ) {}
-
     public function respond(): Response
     {
-        return $this->factory->make(headers: ['Vary' => ServiceProvider::HEADER]);
+        return new Response(headers: ['Vary' => ServiceProvider::HEADER]);
     }
 }

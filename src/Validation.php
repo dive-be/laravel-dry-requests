@@ -5,10 +5,10 @@ namespace Dive\DryRequests;
 enum Validation
 {
     case ContinueOnError;
-    case StopOnFirstError;
+    case StopOnFirstFailure;
 
-    public function isStopOnFirstError(): bool
+    public function isStopOnFirstFailure(): bool
     {
-        return $this === Validation::StopOnFirstError;
+        return $this === Validation::StopOnFirstFailure;
     }
 }

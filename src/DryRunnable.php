@@ -34,7 +34,7 @@ trait DryRunnable
         if ($this->isDry()) {
             $this->validateWhenPresent($instance);
 
-            if ($this->getBehavior()->isStopOnFirstError()) {
+            if ($this->getBehavior()->isStopOnFirstFailure()) {
                 $instance->stopOnFirstFailure();
             }
         }
@@ -49,7 +49,7 @@ trait DryRunnable
 
     private function getBehavior(): Validation
     {
-        $behavior = Validation::StopOnFirstError;
+        $behavior = Validation::StopOnFirstFailure;
 
         foreach ((new ReflectionMethod($this, 'rules'))->getAttributes(Dry::class) as $attribute) {
             $behavior = $attribute->newInstance()->behavior;

@@ -10,16 +10,30 @@ final class ServiceProvider extends ServiceProviderBase
 {
     public const HEADER = 'X-Dry-Run';
 
+    public function boot()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->registerConfig();
+        }
+    }
+
     public function register()
     {
         $this->app->afterResolving(ExceptionHandler::class, $this->registerException(...));
+    }
+
+    private function registerConfig()
+    {
+        $this->publishes([
+            __DIR__ . '/../config/dry-requests.php' => $this->app->configPath('dry-requests.php'),
+        ], 'config');
     }
 
     private function registerException(ExceptionHandler $handler)
     {
         if ($handler instanceof Handler) {
             $handler->ignore(SucceededException::class);
-            $handler->renderable(fn (SucceededException $e) => $this->app[Responder::class]->respond());
+            $handler->renderable(fn (SucceededException $e) => $this->app->make(Responder::class)->respond());
         }
     }
 }
