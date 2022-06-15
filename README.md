@@ -5,8 +5,8 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 [![Total Downloads](https://img.shields.io/packagist/dt/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
-This package allows you to check if your requests would pass validation if you executed them normally. 
-(The Laravel equivalent of `--dry-run` in various CLI tools, or what some call "preflight requests").
+This package allows you to check if your [`FormRequest`](https://laravel.com/docs/9.x/validation#form-request-validation)s would pass validation if you executed them normally. 
+(The Laravel equivalent of `--dry-run` in various CLI tools, or what some devs call "preflight requests").
 
 🚀 Hit the endpoint as users are entering information on the form to provide real-time feedback with 100% accuracy. 
 
@@ -65,7 +65,7 @@ This means that *you* are responsible for only sending the relevant fields for v
 
 ## Usage
 
-📣 You **must** be using [`FormRequest` classes](https://laravel.com/docs/9.x/validation#form-request-validation), otherwise the included `DryRunnable` trait will not work.
+> 📣 You **must** be using [`FormRequest` classes](https://laravel.com/docs/9.x/validation#form-request-validation), otherwise the included `DryRunnable` trait will not work.
 
 ### Back-end preparation
 
