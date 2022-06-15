@@ -3,6 +3,7 @@
 # X-Dry-Run your requests
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
+[![Total Downloads](https://img.shields.io/packagist/dt/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
 This package allows you to check if your requests would pass validation if you executed them normally. 
 (The Laravel equivalent of `--dry-run` in various CLI tools, or what some call "preflight requests").
