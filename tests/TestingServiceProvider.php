@@ -13,7 +13,7 @@ class TestingServiceProvider extends RouteServiceProvider
     {
         TestResponse::macro('assertDry', function () {
             /** @var TestResponse $this */
-            return $this->assertOk()->assertHeader('Vary', ServiceProvider::HEADER);
+            return $this->assertNoContent(200)->assertHeader('Vary', ServiceProvider::HEADER);
         });
     }
 

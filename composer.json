@@ -21,12 +21,13 @@
     ],
     "require": {
         "php": "^8.1",
+        "dive-be/php-enum-utils": "^1.1",
         "laravel/framework": "^9.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.8",
         "nunomaduro/larastan": "^2.1",
-        "orchestra/testbench": "^7.4",
+        "orchestra/testbench": "^7.5",
         "pestphp/pest": "^1.21",
         "pestphp/pest-plugin-laravel": "^1.2",
         "phpunit/phpunit": "^9.5"

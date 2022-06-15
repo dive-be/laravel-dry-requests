@@ -20,6 +20,8 @@ final class ServiceProvider extends ServiceProviderBase
     public function register()
     {
         $this->app->afterResolving(ExceptionHandler::class, $this->registerException(...));
+
+        $this->mergeConfigFrom(__DIR__ . '/../config/dry-requests.php', 'dry-requests');
     }
 
     private function registerConfig()

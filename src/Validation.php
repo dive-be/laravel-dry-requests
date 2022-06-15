@@ -2,13 +2,17 @@
 
 namespace Dive\DryRequests;
 
-enum Validation
-{
-    case ContinueOnError;
-    case StopOnFirstFailure;
+use Dive\Enum\Assertable;
+use Dive\Enum\ValueListable;
 
-    public function isStopOnFirstFailure(): bool
-    {
-        return $this === Validation::StopOnFirstFailure;
-    }
+/**
+ * @method bool isFirstFailure()
+ */
+enum Validation: string
+{
+    use Assertable;
+    use ValueListable;
+
+    case AllFailures = 'all';
+    case FirstFailure = 'first';
 }

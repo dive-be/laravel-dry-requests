@@ -7,9 +7,9 @@ use function Pest\Laravel\post;
 
 uses(TestCase::class)->in(__DIR__);
 
-function dry(array $parameters = []): TestResponse
+function dry(string $behavior, array $parameters = []): TestResponse
 {
-    return post('users', $parameters, [ServiceProvider::HEADER => true]);
+    return post('users', $parameters, [ServiceProvider::HEADER => $behavior]);
 }
 
 function wet(array $parameters = []): TestResponse

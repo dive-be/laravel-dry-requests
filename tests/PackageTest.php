@@ -14,19 +14,31 @@ test('standard request behavior is unchanged', function () {
 });
 
 test('fields will not be validated if absent', function () {
-    $response = dry(['nickname' => 'Moe']);
+    $response = dry('first', ['nickname' => 'Moe']);
 
     $response->assertDry()->assertValid(['email', 'name']);
 });
 
-test('validation will stop as soon as an error is found during a dry request', function () {
-    $response = dry(['email' => 'muhammed@', 'name' => 'M']);
+test('validation will stop as soon as an error is found during a "first failure" dry request', function () {
+    $response = dry('first', ['email' => 'muhammed@', 'name' => 'M']);
 
     $response->assertValid('name')->assertInvalid('email');
 });
 
+test('invalid behavior will invoke the default one in the config', function () {
+    $response = dry('PogChamp', ['email' => 'muhammed@', 'name' => 'M']);
+
+    $response->assertValid('name')->assertInvalid('email');
+});
+
+test('validation will return all errors during an "all failures" dry request', function () {
+    $response = dry('all', ['email' => 'muhammed@', 'name' => 'M']);
+
+    $response->assertInvalid(['email', 'name']);
+});
+
 test('200 (OK) is returned if a dry request succeeds', function () {
-    $response = dry(['email' => 'muhammed@dive.be', 'name' => 'Muhammed Sari']);
+    $response = dry('first', ['email' => 'muhammed@dive.be', 'name' => 'Muhammed Sari']);
 
     $response->assertDry();
 });
@@ -38,7 +50,7 @@ test('event is dispatched if a request ran dry', function () {
 
     Event::assertNotDispatched(RequestRanDry::class);
 
-    dry(['email' => 'muhammed@dive.be', 'name' => 'Muhammed Sari']);
+    dry('all', ['email' => 'muhammed@dive.be', 'name' => 'Muhammed Sari']);
 
     Event::assertDispatched(RequestRanDry::class);
 });

@@ -20,6 +20,11 @@ trait DryRunnable
         $this->stopWhenDry();
     }
 
+    protected function withValidator(Validator $instance)
+    {
+        $this->withDryValidator($instance);
+    }
+
     protected function stopWhenDry()
     {
         if ($this->isDry()) {
@@ -34,7 +39,7 @@ trait DryRunnable
         if ($this->isDry()) {
             $this->validateWhenPresent($instance);
 
-            if ($this->getBehavior()->isStopOnFirstFailure()) {
+            if ($this->getBehavior()->isFirstFailure()) {
                 $instance->stopOnFirstFailure();
             }
         }
@@ -42,20 +47,19 @@ trait DryRunnable
         return $instance;
     }
 
-    protected function withValidator(Validator $instance)
-    {
-        $this->withDryValidator($instance);
-    }
-
     private function getBehavior(): Validation
     {
-        $behavior = Validation::StopOnFirstFailure;
-
         foreach ((new ReflectionMethod($this, 'rules'))->getAttributes(Dry::class) as $attribute) {
-            $behavior = $attribute->newInstance()->behavior;
+            return $attribute->newInstance()->behavior;
         }
 
-        return $behavior;
+        $default = $this->container['config']['dry-requests.validation'];
+
+        if (in_array($header = $this->headers->get(ServiceProvider::HEADER), Validation::toValues())) {
+            $default = $header;
+        }
+
+        return Validation::from($default);
     }
 
     private function validateWhenPresent(Validator $instance)
