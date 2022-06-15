@@ -148,6 +148,7 @@ public function rules(): array
 axios.post('/users', { email: '...', username: '...' }, { headers: { 'X-Dry-Run': 'all' } })
      .then(response => response.status); // 200 OK
 ```
+*Note: the header will be ignored if you have explicitly set a validation behavior on the `FormRequest` using the `Dry` attribute.* 
 
 ### Conflicting `FormRequest` methods
 
