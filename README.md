@@ -3,9 +3,11 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
 This package allows you to check if your requests would pass validation if you executed them normally. 
-(The Laravel equivalent of `--dry-run` in various CLI tools.)
+(The Laravel equivalent of `--dry-run` in various CLI tools, or what some call "preflight requests").
 
 🚀 Hit the endpoint **as users are entering information on the form** to provide real-time feedback with 100% accuracy. 
+
+🚀 Validate only a subset of data of a multi-step form to guarantee success when the form is eventually submitted.
 
 
 ## What problem does this package solve?
@@ -34,10 +36,20 @@ This is the contents of the published config file:
 
 ```php
 return [
-    /**
-     * Name of the request parameter that will determine whether a request is running dry.
-     */
-    'parameter' => 'dry',
+    /*
+    |--------------------------------------------------------------------------
+    | Default Dry Validation Behavior
+    |--------------------------------------------------------------------------
+    |
+    | All dry requests are validated against a subset of the defined rules.
+    | In other words only present fields are checked during the request.
+    | You may choose to halt validation on an error or check 'em all.
+    |
+    | Supported: "all", "first"
+    |
+    */
+
+    'validation' => 'first',
 ];
 ```
 
