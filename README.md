@@ -1,11 +1,11 @@
-# 🥵 Dry run your requests
+# X-Dry-Run your requests
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
 This package allows you to check if your requests would pass validation if you executed them normally. 
 (The Laravel equivalent of `--dry-run` in various CLI tools, or what some call "preflight requests").
 
-🚀 Hit the endpoint **as users are entering information on the form** to provide real-time feedback with 100% accuracy. 
+🚀 Hit the endpoint as users are entering information on the form to provide real-time feedback with 100% accuracy. 
 
 🚀 Validate only a subset of data of a multi-step form to guarantee success when the form is eventually submitted.
 
@@ -53,15 +53,20 @@ return [
 ];
 ```
 
-## Usage
+## Behavior
 
-### Prerequisites
+💡 `Controller` logic is not executed after a successful validation attempt. `200 OK` is returned upon a successful dry run.
+
+💡 **Only present fields** are validated to ensure good UX. Other fields are skipped using the `sometimes` rule.
+This means that *you* are responsible for only sending the relevant fields for validating e.g. a step of a multi-step wizard.
+
+## Usage
 
 📣 You **must** be using [`FormRequest` classes](https://laravel.com/docs/9.x/validation#form-request-validation), otherwise the included `DryRunnable` trait will not work.
 
-### Example
+### Back-end preparation
 
-Assume the following endpoint: `POST /users` and `Controller`:
+Assume the following endpoint: `POST /users` and `Controller` injecting a `StoreUserRequest`:
 
 ```php
 class UsersController
@@ -85,36 +90,61 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'max:255'],
-            'name' => ['required', 'string', 'min:2', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'min:2', 'max:255', 'unique:users'],
             'nickname' => ['nullable', 'string', 'min:2', 'max:255'],
         ];
     }
 }
 ```
 
-Now, hit the endpoint from the client-side like you normally would, but with the added `dry` flag (or the one you configured in the config file).
+### Front-end execution
+
+Now, hit the endpoint from the client-side like you normally would.
+But with the added `X-Dry-Run` header.
 
 ```js
-// 422 Unprocessable Entity
-axios.post('/users', { dry: true, email: 'muhammed' }).then(response => response.status);
+// 1. "Username has already been taken" validation error
+axios.post('/users', { username: 'Agent007' }, { headers: { 'X-Dry-Run': true } })
+     .then(response => response.status); // 422 Unprocessable Entity
      
-// 202 Accepted
-axios.post('/users', { dry: true, name: 'Muhammed Sari' }).then(response => response.status);
+// 2. Successful unique username check: Controller did not execute
+axios.post('/users', { username: 'Asil Kan' }, { headers: { 'X-Dry-Run': true } })
+     .then(response => response.status); // 200 OK
+     
+// 3. Successful unique e-mail check: Controller did not execute
+axios.post('/users', { email: 'muhammed@dive.be' }, { headers: { 'X-Dry-Run': true } })
+     .then(response => response.status); // 200 OK
 
-// 202 Accepted
-axios.post('/users', { dry: true, email: 'muhammed@dive.be', name: 'Muhammed Sari' }).then(response => response.status);
-
-// 201 Created
-axios.post('/users', { email: 'muhammed@dive.be', name: 'Muhammed Sari' }).then(response => response.status);
+// 4. Submit entire form: Controller executed
+axios.post('/users', { email: 'muhammed@dive.be', username: 'Asil Kan' })
+     .then(response => response.status); // 201 Created
 ```
 
-### Behavior
+### Fine-tuning Dry Validations: All Failures / First Failure
 
-- `Controller` logic is *not* executed after a *successful* validation attempt.
-- Validation stops as soon as an error is encountered. This error is then returned.
-- Absent fields that have the `required` rule will *not* be validated to ensure good UX. 
-  - This means that you don't *really have to* keep track of a `touched` state for your FE form fields, but you still should nonetheless for other purposes.
+- The default validation behavior for dry requests is halting validation as soon as an error is found.
+This is especially useful when handling async validation for a **single field**. 
+- The other option is to keep validating even if an error is encountered. 
+This is especially useful for multi-step forms.
+
+You can alter this behavior on 3 distinct levels.
+
+1. Change `first` to `all` in the `dry-request` config file. This will apply to all of your requests.
+2. Use the `Dive\DryRequests\Dry` attribute along with `Dive\DryRequests\Validation` on the `rules` method 
+to force a specific `Validation` behavior for a particular `FormRequest`.
+```php
+#[Dry(Validation::FirstFailure)]
+public function rules(): array
+{
+    return [...];
+}
+```
+3. Dictate the behavior on the fly from the front-end using the `X-Dry-Run` header. Valid values: `all`, `first`.
+```php
+axios.post('/users', { email: '...', username: '...' }, { headers: { 'X-Dry-Run': 'all' } })
+     .then(response => response.status); // 200 OK
+```
 
 ### Conflicting `FormRequest` methods
 
@@ -146,6 +176,10 @@ class CreateUserRequest extends FormRequest
 ```bash
 composer test
 ```
+
+## Upgrading
+
+Please see [UPGRADING](UPGRADING.md) for details.
 
 ## Changelog
 
