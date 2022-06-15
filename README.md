@@ -1,3 +1,5 @@
+<p align="center"><img src="/art/socialcard.jpg" alt="Social Card of Laravel Dry Requests"></p>
+
 # X-Dry-Run your requests
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
