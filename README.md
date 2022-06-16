@@ -5,7 +5,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 [![Total Downloads](https://img.shields.io/packagist/dt/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
-This package allows you to check if your [`FormRequest`](https://laravel.com/docs/9.x/validation#form-request-validation)s would pass validation if you executed them normally. 
+This package allows you to check if your requests would pass validation if you executed them normally. 
 (The Laravel equivalent of `--dry-run` in various CLI tools, or what some devs call "preflight requests").
 
 🚀 Hit the endpoint as users are entering information on the form to provide real-time feedback with 100% accuracy. 
@@ -66,11 +66,11 @@ This means that *you* are responsible for only sending the relevant fields for v
 
 ## Usage
 
-> 📣 You **must** be using [`FormRequest` classes](https://laravel.com/docs/9.x/validation#form-request-validation), otherwise the included `DryRunnable` trait will not work.
+Assume the following endpoint: `POST /users` and `Controller`.
 
-### Back-end preparation
+### Option 1 - using `FormRequest`s
 
-Assume the following endpoint: `POST /users` and `Controller` injecting a `StoreUserRequest`:
+`Controller` injecting a `StoreUserRequest`:
 
 ```php
 class UserController
@@ -101,6 +101,30 @@ class StoreUserRequest extends FormRequest
     }
 }
 ```
+
+That's it 😎.
+
+### Option 2 - using `validate` method on the `Request` object
+
+```php
+class UserController
+{
+    public function store(Request $request): UserResource
+    {
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'username' => ['required', 'string', 'min:2', 'max:255', 'unique:users'],
+            'nickname' => ['nullable', 'string', 'min:2', 'max:255'],
+        ]);
+    
+        $user = User::create($request->validated());
+    
+        return new UserResource($user);
+    }
+}
+```
+
+You don't have to do anything at all 🤙.
 
 ### Front-end execution
 
@@ -135,7 +159,7 @@ This is especially useful for multi-step forms.
 You can alter this behavior on 3 distinct levels.
 
 1. Change `first` to `all` (or vice versa) in the `dry-request` config file. This will apply to all of your requests.
-2. Use the `Dive\DryRequests\Dry` attribute along with `Dive\DryRequests\Validation` on the `rules` method 
+2. **FormRequest only** - Use the `Dive\DryRequests\Dry` attribute along with `Dive\DryRequests\Validation` on the `rules` method 
 to force a specific `Validation` behavior for a particular `FormRequest`.
 ```php
 #[Dry(Validation::AllFailures)]
