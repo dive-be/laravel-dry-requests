@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-dry-requests` will be documented in this file.
 
+## 2.1.0 - 2022-06-16
+
+### Added
+
+- Invoke dry request behavior through regular `Illuminate\Http\Request` objects.
+
 ## 2.0.0 - 2022-06-16
 
 ### Added
