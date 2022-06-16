@@ -46,7 +46,8 @@ return [
     |
     | All dry requests are validated against a subset of the defined rules.
     | In other words only present fields are checked during the request.
-    | You may choose to halt validation on an error or check 'em all.
+    | You may choose to halt validation as soon as a failure occurs,
+    | or continue validating all fields and return all failures.
     |
     | Supported: "all", "first"
     |
@@ -124,7 +125,7 @@ axios.post('/users', { email: 'muhammed@dive.be', username: 'Asil Kan' })
      .then(response => response.status); // 201 Created
 ```
 
-### Fine-tuning Dry Validations: All Failures / First Failure
+### Fine-tuning Dry Validations: `AllFailures` / `FirstFailure`
 
 - The default validation behavior for dry requests is halting validation as soon as an error is found.
 This is especially useful when handling async validation for a **single field**. 
@@ -133,7 +134,7 @@ This is especially useful for multi-step forms.
 
 You can alter this behavior on 3 distinct levels.
 
-1. Change `first` to `all` in the `dry-request` config file. This will apply to all of your requests.
+1. Change `first` to `all` (or vice versa) in the `dry-request` config file. This will apply to all of your requests.
 2. Use the `Dive\DryRequests\Dry` attribute along with `Dive\DryRequests\Validation` on the `rules` method 
 to force a specific `Validation` behavior for a particular `FormRequest`.
 ```php
@@ -148,7 +149,7 @@ public function rules(): array
 axios.post('/users', { email: '...', username: '...' }, { headers: { 'X-Dry-Run': 'all' } })
      .then(response => response.status); // 200 OK
 ```
-*Note: the header will be ignored if you have explicitly set a validation behavior on the `FormRequest` using the `Dry` attribute.* 
+*Note: the header value will be ignored if you have explicitly set a validation behavior on the `FormRequest` using the `Dry` attribute.* 
 
 ### Conflicting `FormRequest` methods
 
