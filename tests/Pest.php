@@ -7,12 +7,12 @@ use function Pest\Laravel\post;
 
 uses(TestCase::class)->in(__DIR__);
 
-function dry(string $behavior, array $parameters = []): TestResponse
+function dry(string $endpoint, string $behavior, array $parameters = []): TestResponse
 {
-    return post('users', $parameters, [ServiceProvider::HEADER => $behavior]);
+    return post($endpoint, $parameters, [ServiceProvider::HEADER => $behavior]);
 }
 
-function wet(array $parameters = []): TestResponse
+function wet(string $endpoint, array $parameters = []): TestResponse
 {
-    return post('users', $parameters);
+    return post($endpoint, $parameters);
 }

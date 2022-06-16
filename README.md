@@ -73,7 +73,7 @@ This means that *you* are responsible for only sending the relevant fields for v
 Assume the following endpoint: `POST /users` and `Controller` injecting a `StoreUserRequest`:
 
 ```php
-class UsersController
+class UserController
 {
     public function store(StoreUserRequest $request): UserResource
     {

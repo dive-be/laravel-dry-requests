@@ -5,7 +5,7 @@ namespace Tests\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Tests\Http\Requests\StoreUserRequest;
 
-class UsersController
+class UserController
 {
     public function store(StoreUserRequest $request): JsonResponse
     {

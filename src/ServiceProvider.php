@@ -4,6 +4,7 @@ namespace Dive\DryRequests;
 
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Exceptions\Handler;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider as ServiceProviderBase;
 
 final class ServiceProvider extends ServiceProviderBase
@@ -15,6 +16,8 @@ final class ServiceProvider extends ServiceProviderBase
         if ($this->app->runningInConsole()) {
             $this->registerConfig();
         }
+
+        Request::mixin(new DryRequestMacros());
     }
 
     public function register()

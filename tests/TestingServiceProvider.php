@@ -5,7 +5,8 @@ namespace Tests;
 use Dive\DryRequests\ServiceProvider;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider;
 use Illuminate\Testing\TestResponse;
-use Tests\Http\Controllers\UsersController;
+use Tests\Http\Controllers\StoreUserAction;
+use Tests\Http\Controllers\UserController;
 
 class TestingServiceProvider extends RouteServiceProvider
 {
@@ -19,6 +20,7 @@ class TestingServiceProvider extends RouteServiceProvider
 
     public function map()
     {
-        $this->post('users', [UsersController::class, 'store']);
+        $this->post('users-with-form-request', [UserController::class, 'store']);
+        $this->post('users-with-macro', StoreUserAction::class);
     }
 }
