@@ -137,7 +137,7 @@ You can alter this behavior on 3 distinct levels.
 2. Use the `Dive\DryRequests\Dry` attribute along with `Dive\DryRequests\Validation` on the `rules` method 
 to force a specific `Validation` behavior for a particular `FormRequest`.
 ```php
-#[Dry(Validation::FirstFailure)]
+#[Dry(Validation::AllFailures)]
 public function rules(): array
 {
     return [...];
