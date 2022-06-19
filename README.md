@@ -1,4 +1,4 @@
-<p align="center"><img src="/art/socialcard.jpg" alt="Social Card of Laravel Dry Requests"></p>
+<p align="center"><img src="https://github.com/dive-be/laravel-dry-requests/blob/master/art/socialcard.jpg?raw=true" alt="Social Card of Laravel Dry Requests"></p>
 
 # X-Dry-Run your requests
 
@@ -6,12 +6,15 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
 This package allows you to check if your requests would pass validation if you executed them normally. 
-(The Laravel equivalent of `--dry-run` in various CLI tools, or what some devs call "preflight requests").
+The Laravel equivalent of `--dry-run` in various CLI tools, or what some devs call "preflight requests".
 
 🚀 Hit the endpoint as users are entering information on the form to provide real-time feedback with 100% accuracy. 
 
 🚀 Validate only a subset of data of a multi-step form to guarantee success when the form is eventually submitted.
 
+## Showcase
+
+![LDR Demo](./art/demo.gif)
 
 ## What problem does this package solve?
 

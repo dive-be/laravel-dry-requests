@@ -6,8 +6,9 @@
         "laravel",
         "validation",
         "dry",
-        "run",
-        "requests"
+        "requests",
+        "async",
+        "validation"
     ],
     "homepage": "https://github.com/dive-be/laravel-dry-requests",
     "license": "MIT",
