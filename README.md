@@ -152,6 +152,44 @@ axios.post('/users', { email: 'muhammed@dive.be', username: 'Asil Kan' })
      .then(response => response.status); // 201 Created
 ```
 
+### Inertia.js example
+
+```js
+const { clearErrors, data, errors, setData } = useForm({
+    email: '',
+    password: '',
+    password_confirmation: '',
+});
+
+const pick = (obj, fields) => fields.reduce((acc, cur) => (acc[cur] = obj[cur], acc), {});
+
+const validateAsync = (...fields) => () => {
+    Inertia.post(route('register'), pick(data, fields) , {
+        headers: { 'X-Dry-Run': 'all' },
+        onError: setError,
+        onSuccess() { clearErrors(...fields); },
+    });
+}
+
+// Somewhere in your template
+<input onBlur={validateAsync('email')} 
+       type="email" 
+       name="email" 
+       value={data.email} 
+       onChange={setData} />
+
+<input type="password" 
+       name="password" 
+       value={data.password} 
+       onChange={setData} />
+       
+<input onBlur={validateAsync('password', 'password_confirmation')} 
+       type="password" 
+       name="password_confirmation" 
+       value={data.password_confirmation} 
+       onChange={setData} />
+```
+
 ### Fine-tuning Dry Validations: `AllFailures` / `FirstFailure`
 
 - The default validation behavior for dry requests is halting validation as soon as an error is found.
