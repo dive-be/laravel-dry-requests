@@ -1,14 +1,14 @@
-<p align="center"><img src="https://github.com/dive-be/laravel-dry-requests/blob/master/art/socialcard.jpg?raw=true" alt="Social Card of Laravel Dry Requests"></p>
+<p><img src="https://github.com/dive-be/laravel-dry-requests/blob/master/art/socialcard.png?raw=true" alt="Social Card of Laravel Dry Requests" style="max-width:830px"></p>
 
 # X-Dry-Run your requests
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 [![Total Downloads](https://img.shields.io/packagist/dt/dive-be/laravel-dry-requests.svg?style=flat-square)](https://packagist.org/packages/dive-be/laravel-dry-requests)
 
-This package allows you to check if your requests would pass validation if you executed them normally. 
+This package allows you to check if your requests would pass validation if you executed them normally.
 The Laravel equivalent of `--dry-run` in various CLI tools, or what some devs call "preflight requests".
 
-🚀 Hit the endpoint as users are entering information on the form to provide real-time feedback with 100% accuracy. 
+🚀 Hit the endpoint as users are entering information on the form to provide real-time feedback with 100% accuracy.
 
 🚀 Validate only a subset of data of a multi-step form to guarantee success when the form is eventually submitted.
 
@@ -81,7 +81,7 @@ class UserController
     public function store(StoreUserRequest $request): UserResource
     {
         $user = User::create($request->validated());
-    
+
         return new UserResource($user);
     }
 }
@@ -119,9 +119,9 @@ class UserController
             'username' => ['required', 'string', 'min:2', 'max:255', 'unique:users'],
             'nickname' => ['nullable', 'string', 'min:2', 'max:255'],
         ]);
-    
+
         $user = User::create($request->validated());
-    
+
         return new UserResource($user);
     }
 }
@@ -138,11 +138,11 @@ But with the added `X-Dry-Run` header.
 // 1. "Username has already been taken" validation error
 axios.post('/users', { username: 'Agent007' }, { headers: { 'X-Dry-Run': true } })
      .then(response => response.status); // 422 Unprocessable Entity
-     
+
 // 2. Successful unique username check: Controller did not execute
 axios.post('/users', { username: 'Asil Kan' }, { headers: { 'X-Dry-Run': true } })
      .then(response => response.status); // 200 OK
-     
+
 // 3. Successful unique e-mail check: Controller did not execute
 axios.post('/users', { email: 'muhammed@dive.be' }, { headers: { 'X-Dry-Run': true } })
      .then(response => response.status); // 200 OK
@@ -172,35 +172,35 @@ const validateAsync = (...fields) => () => {
 }
 
 // Somewhere in your template
-<input onBlur={validateAsync('email')} 
-       type="email" 
-       name="email" 
-       value={data.email} 
+<input onBlur={validateAsync('email')}
+       type="email"
+       name="email"
+       value={data.email}
        onChange={setData} />
 
-<input type="password" 
-       name="password" 
-       value={data.password} 
+<input type="password"
+       name="password"
+       value={data.password}
        onChange={setData} />
-       
-<input onBlur={validateAsync('password', 'password_confirmation')} 
-       type="password" 
-       name="password_confirmation" 
-       value={data.password_confirmation} 
+
+<input onBlur={validateAsync('password', 'password_confirmation')}
+       type="password"
+       name="password_confirmation"
+       value={data.password_confirmation}
        onChange={setData} />
 ```
 
 ### Fine-tuning Dry Validations: `AllFailures` / `FirstFailure`
 
 - The default validation behavior for dry requests is halting validation as soon as an error is found.
-This is especially useful when handling async validation for a **single field**. 
-- The other option is to keep validating even if an error is encountered. 
+This is especially useful when handling async validation for a **single field**.
+- The other option is to keep validating even if an error is encountered.
 This is especially useful for multi-step forms.
 
 You can alter this behavior on 3 distinct levels.
 
 1. Change `first` to `all` (or vice versa) in the `dry-request` config file. This will apply to all of your requests.
-2. **FormRequest only** - Use the `Dive\DryRequests\Dry` attribute along with `Dive\DryRequests\Validation` on the `rules` method 
+2. **FormRequest only** - Use the `Dive\DryRequests\Dry` attribute along with `Dive\DryRequests\Validation` on the `rules` method
 to force a specific `Validation` behavior for a particular `FormRequest`.
 ```php
 #[Dry(Validation::AllFailures)]
@@ -214,7 +214,7 @@ public function rules(): array
 axios.post('/users', { email: '...', username: '...' }, { headers: { 'X-Dry-Run': 'all' } })
      .then(response => response.status); // 200 OK
 ```
-*Note: the header value will be ignored if you have explicitly set a validation behavior on the `FormRequest` using the `Dry` attribute.* 
+*Note: the header value will be ignored if you have explicitly set a validation behavior on the `FormRequest` using the `Dry` attribute.*
 
 ### Conflicting `FormRequest` methods
 
@@ -228,14 +228,14 @@ class CreateUserRequest extends FormRequest
     protected function passedValidation()
     {
         $this->stopWhenDry(); // must be called first
-        
+
         // your custom logic
     }
-    
+
     protected function withValidator(Validator $instance)
     {
         $instance = /* your custom logic */;
-        
+
         $this->withDryValidator($instance); // must be called last
     }
 }
