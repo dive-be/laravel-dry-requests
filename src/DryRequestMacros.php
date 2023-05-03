@@ -6,9 +6,7 @@ use Closure;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Validator;
 
-/**
- * @internal
- */
+/** @internal */
 final class DryRequestMacros
 {
     public function isDry(): Closure

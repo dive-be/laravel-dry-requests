@@ -4,9 +4,7 @@ namespace Dive\DryRequests;
 
 use Illuminate\Http\Response;
 
-/**
- * @internal
- */
+/** @internal */
 final class Responder
 {
     public function respond(): Response

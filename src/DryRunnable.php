@@ -12,12 +12,12 @@ use ReflectionMethod;
  */
 trait DryRunnable
 {
-    protected function passedValidation()
+    protected function passedValidation(): void
     {
         $this->stopWhenDry();
     }
 
-    protected function stopWhenDry()
+    protected function stopWhenDry(): void
     {
         if ($this->isDry()) {
             $this->stopDryRequest();
@@ -31,7 +31,7 @@ trait DryRunnable
             : $instance;
     }
 
-    protected function withValidator(Validator $instance)
+    protected function withValidator(Validator $instance): void
     {
         $this->withDryValidator($instance);
     }

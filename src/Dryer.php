@@ -7,16 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Validation\Validator;
 
-/**
- * @internal
- */
+/** @internal */
 final class Dryer
 {
     use Makeable;
 
-    private function __construct(
-        private Request $request,
-    ) {}
+    private function __construct(private readonly Request $request) {}
 
     public function setBehavior(Validator $validator, ?Validation $behavior = null): Validator
     {

@@ -7,7 +7,5 @@ use Attribute;
 #[Attribute(Attribute::TARGET_METHOD)]
 final class Dry
 {
-    public function __construct(
-        public readonly Validation $behavior,
-    ) {}
+    public function __construct(public readonly Validation $behavior) {}
 }

@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 
 final class RequestRanDry
 {
-    private function __construct(
-        public readonly Request $request,
-    ) {}
+    private function __construct(public readonly Request $request) {}
 
     public static function make(Request $request): self
     {
