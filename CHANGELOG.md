@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-dry-requests` will be documented in this file.
 
+## 2.2.0 - 2023-05-03
+
+### Added
+
+- Laravel 10 support
+
+### Removed
+
+- Laravel 9 support
+
 ## 2.1.0 - 2022-06-16
 
 ### Added
