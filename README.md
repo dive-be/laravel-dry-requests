@@ -1,3 +1,9 @@
+> **Warning** two months after the release of our package,
+> [Taylor Otwell announced an almost identical functionality](https://youtu.be/f4QShF42c6E?t=20679) as a core package.
+> Since this package has pretty much been made obsolete, we have decided to stop maintaining it.
+>
+> So, please consider migrating to [Laravel Precognition](https://github.com/laravel/framework/pull/44339).
+
 <p><img src="https://github.com/dive-be/laravel-dry-requests/blob/master/art/socialcard.png?raw=true" alt="Social Card of Laravel Dry Requests" style="max-width:830px"></p>
 
 # X-Dry-Run your requests
