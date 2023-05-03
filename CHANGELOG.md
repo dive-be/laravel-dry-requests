@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-dry-requests` will be documented in this file.
 
+## 2.3.0 - 2023-05-03
+
+### Removed
+
+- PHP 8.1 support
+
 ## 2.2.0 - 2023-05-03
 
 ### Added
